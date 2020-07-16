@@ -2,15 +2,19 @@ import {LightningElement, api, wire} from 'lwc';
 import getAccountId from '@salesforce/apex/AccountController.getAccountId';
 import getAccountName from '@salesforce/apex/AccountController.getAccountName';
 import Id from '@salesforce/user/Id';
-import { createRecord } from 'lightning/uiRecordApi';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
+/** Record DML operations. */
+import { createRecord } from 'lightning/uiRecordApi';
+
+/** Order__c Schema. */
 import ORDER_OBJECT from '@salesforce/schema/Order__c';
 import NAME_FIELD from '@salesforce/schema/Order__c.Name';
 import ACCOUNT_ID_FIELD from '@salesforce/schema/Order__c.AccountId__c';
 import COUNT_FIELD from '@salesforce/schema/Order__c.TotalProductCount__c';
 import PRICE_FIELD from '@salesforce/schema/Order__c.TotalPrice__c';
 
+/** OrderItem__c Schema. */
 import ORDER_ITEM_OBJECT from '@salesforce/schema/OrderItem__c';
 import PRODUCT_ID_FIELD from '@salesforce/schema/OrderItem__c.ProductId__c';
 import PRODUCT_PRICE_FIELD from '@salesforce/schema/OrderItem__c.Price__c';
@@ -18,8 +22,11 @@ import ITEM_NAME_FIELD from '@salesforce/schema/OrderItem__c.Name';
 import PRODUCT_QUANTITY_FIELD from '@salesforce/schema/OrderItem__c.Quantity__c';
 import ORDER_ID_FIELD from '@salesforce/schema/OrderItem__c.OrderId__c';
 
-
+/**
+ * Builds Order__c and OrderItem__c
+ */
 export default class ObjectBuilder extends LightningElement {
+    /** Account name and number. */
     accountId;
     @wire(getAccountId, {currId: Id})
     wiredAccountId(data) {
@@ -32,6 +39,7 @@ export default class ObjectBuilder extends LightningElement {
         if (data) this.accountName = data.data;
     }
 
+    /** Create a new Order__c. with receiving data */
     recordsData;
     @api
     createOrder(data) {
@@ -65,6 +73,7 @@ export default class ObjectBuilder extends LightningElement {
 
     }
 
+    /** Create a new OrderItem__c. with receiving data*/
     addOrderItems(curId) {
         for (let i in this.recordsData)
         {

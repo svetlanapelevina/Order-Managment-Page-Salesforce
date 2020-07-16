@@ -1,12 +1,12 @@
 <template>
     <template if:true={openmodel}>
         <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby={id} class="slds-modal slds-fade-in-open">
-            <div class="slds-modal__container">
+            <div class="slds-modal__container ">
                 <!-- modal header start -->
-                <header class="slds-modal__header slds-text-heading_medium">
+                <header class="slds-modal__header slds-text-heading_medium slds-theme_shade slds-box">
                     Details
                 </header>
-                <div class="slds-modal__content slds-p-around_medium" id={id}>
+                <div class="slds-modal__content slds-p-around_medium slds-theme_shade slds-box" id={id}>
                     {recordid}
                     <lightning-record-view-form
                             record-id={id}
@@ -25,7 +25,7 @@
                         </div>
                     </lightning-record-view-form>
                 </div>
-                <footer class="slds-modal__footer">
+                <footer class="slds-modal__footer slds-box">
                     <button class="slds-button slds-button_neutral" onclick={closeModal}>Close</button>
                 </footer>
             </div>

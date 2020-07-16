@@ -3,14 +3,18 @@ import getFamilies from '@salesforce/apex/FilterProductsController.getFamilies';
 import getTypes from '@salesforce/apex/FilterProductsController.getTypes';
 import filerResult from '@salesforce/apex/FilterProductsController.filerResult';
 
+/**
+ * Displays a filter panel, search panel and list of products
+ */
 export default class ProductList extends LightningElement {
-    //data
+    /** All available products */
     @track products;
+
     /**
-     * Load the list of available products.
+     * Check boxes
      */
 
-    // check-boxes
+    /** Get all families */
     families;
     @wire(getFamilies)
     wiredFamiliesList(data) {
@@ -20,6 +24,7 @@ export default class ProductList extends LightningElement {
         }
     }
 
+    /** Get all types */
     types;
     @wire(getTypes)
     wiredTypesList(data) {
@@ -29,6 +34,7 @@ export default class ProductList extends LightningElement {
         }
     }
 
+    /** For data in check boxes */
     get optionsFamilies() {
         var result = []
         for (let i in this.families) {
@@ -36,7 +42,6 @@ export default class ProductList extends LightningElement {
         }
         return result;
     }
-
     get optionsTypes() {
         var result = []
         for (let i in this.types) {
@@ -45,12 +50,13 @@ export default class ProductList extends LightningElement {
         return result;
     }
 
-
+    /** Filter products by search key, families and types */
     @wire(filerResult, {familyFilters : '$familiesFilter', typeFilters: '$typesFilter', searchKey: '$inputValue'})
     wiredFilterProduct(data) {
         if (data) { this.products = data; }
     }
 
+    /** Handlers to get filters data and reload products */
     familiesFilter = [];
     handleCheckBoxFilterChange(e) {
         this.familiesFilter = e.detail.value;
@@ -69,12 +75,16 @@ export default class ProductList extends LightningElement {
         this.wiredFilterProduct();
     }
 
-    //show detais
+    /**
+     * Show details for selected product
+     */
     handleShowDetails(event) {
         this.template.querySelector('c-product-details').showDetails(event.target.name);
     }
 
-    // add to cart
+    /**
+     * Handler for update products in cart (after click on "Add" button
+     */
     @api recordList = [];
     handleAddProductToCart(event) {
         this.recordList.push(event.target.name);

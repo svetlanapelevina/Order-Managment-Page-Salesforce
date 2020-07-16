@@ -5,9 +5,13 @@ import getAccountName from '@salesforce/apex/AccountController.getAccountName';
 import checkIsManager from '@salesforce/apex/AccountController.checkIsManager';
 import { NavigationMixin } from 'lightning/navigation';
 
+/**
+ * Component with header and links to another components
+ */
 export default class MainComponent extends NavigationMixin(LightningElement) {
-    @track userName;
-    @track userNumber;
+    /** Account data */
+    @track accountName;
+    @track accountNumber;
     @track isManager = false;
 
     @wire(checkIsManager, {currId: Id})
@@ -20,7 +24,7 @@ export default class MainComponent extends NavigationMixin(LightningElement) {
 
     @wire(getAccountName, {currId: Id})
     wiredName({error, data}) {
-        if (data) this.userName = data;
+        if (data) this.accountName = data;
         else {
             //console.log(error);
         }
@@ -34,6 +38,7 @@ export default class MainComponent extends NavigationMixin(LightningElement) {
         }
     }
 
+    /** Handle click on the button "Create product" */
     handleCreateClick() {
         this[NavigationMixin.Navigate]({
             type: 'standard__objectPage',
@@ -44,6 +49,7 @@ export default class MainComponent extends NavigationMixin(LightningElement) {
         })
     };
 
+    /** Handle click on the button "Cart" */
     handleOpenCartClick() {
         this.template.querySelector('c-product-list').changeCartView1();
     }
